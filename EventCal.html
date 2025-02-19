@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחשבון מתנות לאירועים</title>
+    <link rel="icon" href="https://i.postimg.cc/X7M4x35G/1.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            direction: rtl;
+            background: linear-gradient(135deg, #ff6a00, #ee0979, #ff8c00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            margin: 0;
+            padding: 0;
+        }
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #4e79bb, #66a3ff, #99ccff);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .generous-checkbox {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .form-column {
+            width: 48%;
+        }
+        @media (max-width: 600px) {
+            .form-column {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>מחשבון מתנות לאירועים</h2>
+        
+        <!-- שדות -->
+        <div class="form-group">
+            <div class="form-column">
+                <label for="eventType">סוג האירוע:</label>
+                <select id="eventType" required>
+                    <option value="300">חתונה</option>
+                    <option value="200">בר מצווה</option>
+                    <option value="150">ברית</option>
+                    <option value="100">אירוע אחר</option>
+                    <option value="250">מסיבת יום הולדת</option>
+                    <option value="180">חנוכת בית</option>
+                    <option value="220">סיום לימודים</option>
+                </select>
+            </div>
+            <div class="form-column">
+                <label for="relation">קרבה למארח:</label>
+                <select id="relation" required>
+                    <option value="1.5">משפחה קרובה</option>
+                    <option value="1.3">דודים/דודות</option>
+                    <option value="1.2">בני דודים</option>
+                    <option value="1.1">חבר קרוב</option>
+                    <option value="1">מכר</option>
+                    <option value="0.8">קולגה</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-column">
+                <label for="budget">תקציב למתנה (ש"ח):</label>
+                <input type="number" id="budget" placeholder="הכנס את התקציב" required>
+            </div>
+            <div class="form-column">
+                <label for="venueQuality">יוקרת האולם:</label>
+                <select id="venueQuality" required>
+                    <option value="1.2">יוקרתי</option>
+                    <option value="1">רגיל</option>
+                    <option value="0.8">פשוט</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-column">
+                <label for="foodDrink">סוג האוכל והשתייה:</label>
+                <select id="foodDrink" required>
+                    <option value="1.2">גני אירועים</option>
+                    <option value="1">קייטרינג</option>
+                    <option value="0.8">אוכל פשוט</option>
+                </select>
+            </div>
+            <div class="form-column">
+                <label for="eventDuration">משך האירוע:</label>
+                <select id="eventDuration" required>
+                    <option value="1">4-5 שעות</option>
+                    <option value="1.2">6-7 שעות</option>
+                    <option value="1.5">מעל 7 שעות</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-column">
+                <label for="previousGift">כמה נתנו לך בעבר?</label>
+                <input type="number" id="previousGift" placeholder="הכנס את הסכום" required>
+            </div>
+            <div class="form-column">
+                <label for="expectations">ציפיות המארחים (לא חובה):</label>
+                <input type="text" id="expectations" placeholder="הכנס ציפיות">
+            </div>
+        </div>
+
+        <div class="generous-checkbox">
+            <label>
+                <input type="checkbox" id="generous"> רוצה לפרגן
+            </label>
+        </div>
+
+        <button onclick="calculateGift()">חשב סכום</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateGift() {
+            let eventType = parseFloat(document.getElementById("eventType").value);
+            let relation = parseFloat(document.getElementById("relation").value);
+            let budget = parseFloat(document.getElementById("budget").value);
+            let venueQuality = parseFloat(document.getElementById("venueQuality").value);
+            let foodDrink = parseFloat(document.getElementById("foodDrink").value);
+            let eventDuration = parseFloat(document.getElementById("eventDuration").value);
+            let previousGift = parseFloat(document.getElementById("previousGift").value);
+            let generous = document.getElementById("generous").checked;
+
+            // חישוב הסכום המומלץ
+            let recommendedAmount = eventType * relation * venueQuality * foodDrink * eventDuration;
+
+            // אם תיבת הסימון "לפרגן" מסומנת, נוסיף 20%
+            if (generous) {
+                recommendedAmount *= 1.2;
+            }
+
+            // אם יש תקציב שהוזן, נוודא שלא חורגים ממנו
+            if (budget > 0) {
+                recommendedAmount = Math.min(recommendedAmount, budget);
+            }
+
+            // הצגת התוצאה
+            document.getElementById("result").innerText = "הסכום המומלץ: " + recommendedAmount.toFixed(2) + " ₪";
+        }
+    </script>
+</body>
+</html>
